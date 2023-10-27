@@ -105,10 +105,11 @@ export async function addUserEmailToProduct(productId: string, userEmail: string
       product.users.push({ email: userEmail })
 
       await product.save()  
+      
+      const emailContent = await generateEmailBody(product, "WELCOME")
+  
+      await sendEmail(emailContent, [userEmail])
     } 
-    const emailContent = await generateEmailBody(product, "WELCOME")
-
-    await sendEmail(emailContent, [userEmail])
   } catch (error) {
     console.log(error)
   }
